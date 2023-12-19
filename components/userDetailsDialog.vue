@@ -6,16 +6,22 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="4"><b>
+            <v-col cols="12" md="4">
+                <b>
                     <p>Full Name: {{ user.userDetails.fullName }}</p>
-                </b></v-col>
-            <v-col cols="4"><b>
+                </b>
+            </v-col>
+            <v-col cols="12" md="4">
+                <b>
                     <p>Phone: {{ user.userDetails.phone }}</p>
-                </b></v-col>
-            <v-col cols="4"><b>
+                </b>
+            </v-col>
+            <v-col cols="12" md="4">
+                <b>
                     <p>Email: <a :href="'mailto:' + user.userDetails.email">{{ user.userDetails.email }}</a> </p>
-                </b></v-col>
-            <v-col>
+                </b>
+            </v-col>
+            <v-col cols="12">
                 <p><b>Status: </b></p>
             </v-col>
         </v-row>
@@ -209,6 +215,5 @@ const closeDialog = () => {
 
 .button-text {
     text-transform: none;
-}
-</style>
+}</style>
   
