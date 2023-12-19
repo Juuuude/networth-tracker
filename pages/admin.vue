@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container fluid class="container">
         <v-row>
             <v-col class="text-center">
                 <img src="../assets/financial_sheet_logo.png" alt="financial_sheet_logo"
@@ -13,7 +13,7 @@
             </v-btn>
         </v-col>
         <v-row>
-            <v-col :cols="isMobileView ? '12' : '6'" class="ml-auto">
+            <v-col cols="12" xs="12" sm="8" md="6" lg="6" class="ml-auto">
                 <v-text-field v-model="search" label="Search" outlined placeholder="Type to search..." clearable
                     prepend-inner-icon="mdi-magnify" variant="solo"></v-text-field>
             </v-col>
@@ -137,7 +137,8 @@ const exportData = () => {
         'Total Assets': rest.totalAssets,
         'Total Expenses': rest.totalExpenses,
         'Total Liabilities': rest.totalLiabilities,
-        'Networth': rest.netWorth
+        'Networth': rest.netWorth,
+        'Notes': rest.notes
     }));
     // Create a worksheet with the filtered data
     const ws = XLSX.utils.json_to_sheet(filteredUsers);

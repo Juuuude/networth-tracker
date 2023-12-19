@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <div class="container">
             <slot/>
         </div>
@@ -7,10 +7,4 @@
 </template>
 
 <style scoped>
-.container {
-    background-image: url('../assets/financial_sheet_bg.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-  }
 </style>
