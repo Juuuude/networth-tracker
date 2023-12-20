@@ -7,8 +7,11 @@
             </v-col>
         </v-row>
         <v-col class="text-right">
+            <v-btn v-if="false" class="fancy-button mr-2" color="blue" @click="isSettingUpLegends = true">
+                Set up legends<v-icon>mdi-flag</v-icon>
+            </v-btn>
             <v-btn class="fancy-button" color="blue" @click="exportData" :loading="isExportingData">
-                Export<v-icon>mdi-microsoft-excel</v-icon>
+                Export file<v-icon>mdi-microsoft-excel</v-icon>
                 <v-icon>mdi-download</v-icon>
             </v-btn>
         </v-col>
@@ -22,7 +25,7 @@
             <v-col>
                 <v-data-table :headers="headers" :items="users" :search="search">
                     <template #item="{ item, index }">
-                        <tr>
+                        <tr @click="viewUser(item)" class="cursor-pointer">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.userDetails.fullName }}</td>
                             <td>{{ item.userDetails.phone }}</td>
@@ -33,11 +36,6 @@
                             <td>{{ formatCurrency(item.totalLiabilities) }}</td>
                             <td>{{ formatCurrency(item.netWorth) }}</td>
                             <td>{{ '-' }}</td>
-                            <td>
-                                <v-btn icon flat size="small" @click="viewUser(item)">
-                                    <v-icon>mdi-eye</v-icon>
-                                </v-btn>
-                            </td>
                         </tr>
                     </template>
                 </v-data-table>
@@ -59,6 +57,7 @@ import type { UserData } from '../types';
 const isLoading = ref(false)
 const isExportingData = ref(false)
 const isViewingUser = ref(false)
+const isSettingUpLegends = ref(false)
 const search = ref('')
 const isMobileView = useIsMobileView()
 const users = ref<UserData[]>([])
@@ -73,8 +72,7 @@ const headers = ref([
     { title: 'Total Expenses', key: 'totalExpenses' },
     { title: 'Total Liabilities', key: 'totalLiabilities' },
     { title: 'Networth', key: 'netWorth' },
-    { title: 'Status', key: '' },
-    { title: 'Details', key: '', align: 'start' },
+    { title: 'Status', key: '' }
 ])
 
 onBeforeMount(() => {
@@ -170,14 +168,11 @@ const exportData = () => {
 
 .fancy-button {
     background-color: #217346;
-    /* Custom color for the button */
     color: #ffffff;
-    /* Text color for the button */
     border-radius: 8px;
-    /* Add some border-radius for a rounded look */
     text-transform: none;
     transition: background-color 0.3s;
-    /* Smooth transition for background color */
+    width: 150px;
 }
 
 .fancy-button:hover {
@@ -219,6 +214,9 @@ const exportData = () => {
 html, body {
   height: 100%;
   margin: 0;
+}
+.cursor-pointer {
+    cursor: pointer;
 }
 </style>
   

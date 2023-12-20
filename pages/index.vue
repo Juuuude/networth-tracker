@@ -1,8 +1,8 @@
 <template>
   <v-container fluid class="container">
     <v-row>
-      <v-col class="text-right button-text">
-        <v-btn @click="goToAdminPage" color="primary">Admin</v-btn>
+      <v-col class="text-right">
+        <v-btn @click="goToAdminPage" color="primary button-text">Admin</v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -14,7 +14,7 @@
     <v-row>
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
         <!-- Income Card -->
-        <v-card class="form-card mx-10">
+        <v-card class="form-card" :class="isMobileView ? '' : 'mx-10'">
           <p class="sub-title" style="padding: 10px; background-color: rgb(31, 41, 20); color: #FFF;">Income</p>
           <v-card-text>
             <v-row class="scrollable-container">
@@ -34,7 +34,7 @@
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
 
         <!-- Assets Card -->
-        <v-card class="form-card mx-10">
+        <v-card class="form-card" :class="isMobileView ? '' : 'mx-10'">
           <p class="sub-title" style="padding: 10px; background-color: rgb(31, 41, 20); color: #FFF;">Assets</p>
           <v-card-text>
             <v-row class="scrollable-container">
@@ -58,7 +58,7 @@
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
 
         <!-- Expenses Card -->
-        <v-card class="form-card mx-10">
+        <v-card class="form-card" :class="isMobileView ? '' : 'mx-10'">
           <p class="sub-title" style="padding: 10px; background-color: rgb(31, 41, 20); color: #FFF;">Expenses</p>
           <v-card-text>
             <v-row class="scrollable-container">
@@ -79,7 +79,7 @@
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
 
         <!-- Liabilities Card -->
-        <v-card class="form-card mx-10">
+        <v-card class="form-card" :class="isMobileView ? '' : 'mx-10'">
           <p class="sub-title" style="padding: 10px; background-color: rgb(31, 41, 20); color: #FFF;">Liabilities</p>
           <v-card-text>
             <v-row class="scrollable-container">
@@ -101,12 +101,12 @@
     <!-- Net Worth Section -->
     <v-row>
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-        <div class="mx-10">
+        <div :class="isMobileView ? '' : 'mx-10'">
           <v-text-field type="number" variant="solo" v-model="netWorth" label="Total Networth" readonly></v-text-field>
         </div>
       </v-col>
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-        <div class="mx-10">
+        <div :class="isMobileView ? '' : 'mx-10'">
           <v-btn block class="text-none" color="indigo-darken-3" size="x-large" variant="flat" @click="submitForm">
             Check and Review
           </v-btn>
