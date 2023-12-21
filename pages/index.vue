@@ -1,4 +1,5 @@
 <template>
+  <VitePwaManifest />
   <v-container fluid class="container">
     <v-row>
       <v-col class="text-right">
