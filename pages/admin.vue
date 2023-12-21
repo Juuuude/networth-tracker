@@ -1,10 +1,10 @@
 <template>
     <v-container fluid class="container">
-        <div class="mx-16">
+        <div :class="!isMobileView ? 'mx-16' : ''">
             <v-row>
                 <v-col>
-                    <v-btn flat @click="logout" color="blue button-text"
-                        style="position: absolute; right: 0; margin-right: 85px;">Logout</v-btn>
+                    <v-btn flat @click="logout" color="blue button-text" class="logout-btn"
+                        :class="isMobileView ? 'margin-right-mobile' : 'margin-right-desktop'">Logout</v-btn>
                 </v-col>
             </v-row>
             <v-row>
@@ -48,7 +48,8 @@
                         </template>
                     </v-data-table>
                     <v-dialog v-model="isViewingUser" width="900px">
-                        <UserDetailsDialog :user="selectedUser" @close-dialog="isViewingUser = false"  @contact-deleted="deleteContact"/>
+                        <UserDetailsDialog :user="selectedUser" @close-dialog="isViewingUser = false"
+                            @contact-deleted="deleteContact" />
                     </v-dialog>
                 </v-col>
             </v-row>
@@ -265,5 +266,17 @@ body {
 .cursor-pointer {
     cursor: pointer;
 }
-</style>
+
+.logout-btn {
+    position: absolute;
+    right: 0;
+}
+
+.margin-right-desktop {
+    margin-right: 85px;
+}
+
+.margin-right-mobile {
+    margin-right: 25px;
+}</style>
   
