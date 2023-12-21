@@ -16,7 +16,7 @@
                 </div>
 
                 <v-text-field v-model="password" @keyup.enter="login" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-                    :type="visible ? 'text' : 'password'" density="compact" placeholder="Enter your password"
+                    :type="visible ? 'text' : 'password'" density="compact" placeholder="Password"
                     prepend-inner-icon="mdi-lock-outline" variant="outlined"
                     @click:append-inner="visible = !visible"></v-text-field>
 
