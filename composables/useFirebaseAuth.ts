@@ -38,7 +38,6 @@ export default function() {
   
     try {
       await signOut(auth);
-      console.log('Sign-out successful.');
     } catch (error: any) {
       // An error happened.
       console.error('Sign-out error:', error);

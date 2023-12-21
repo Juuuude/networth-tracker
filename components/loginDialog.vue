@@ -55,7 +55,6 @@ const errorMessage = ref('');
 const isLoggingIn = ref(false);
 
 const formIsValid = computed(() => email.value && password.value);
-console.log(appStore.isLoggedIn)
 const login = async () => {
     isLoggingIn.value = true;
     try {
