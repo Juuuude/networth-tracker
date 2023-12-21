@@ -4,7 +4,7 @@ export function useIsMobileView() {
   const isMobileView = ref(false);
 
   const checkMobileView = () => {
-    isMobileView.value = window.innerWidth <= 768;
+    isMobileView.value = window.innerWidth <= 700;
   };
 
   onMounted(() => {

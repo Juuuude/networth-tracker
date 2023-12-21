@@ -102,20 +102,22 @@
             </div>
         </div>
         <v-card-actions class="mt-5">
-            <v-btn color="error" class="text-none" flat size="large" @click="isDeletingContact = true">Delete Contact</v-btn>
-            <v-spacer></v-spacer>
+            <v-btn color="error" class="text-none" flat size="large" @click="isDeletingContact = true">Delete
+                Contact</v-btn>
+            <v-spacer v-if="!isMobileView"></v-spacer> <!-- Hide spacer on small screens -->
             <v-btn color="indigo-darken-3" class="text-none" flat size="large" @click="closeDialog">Close</v-btn>
             <v-btn color="indigo-darken-3" class="text-none" flat size="large" @click="save"
                 :disabled="disabled">Save</v-btn>
         </v-card-actions>
-        <v-dialog v-model="isDeletingContact" width="500px" transition="dialog-top-transition">
+        <v-dialog v-model="isDeletingContact" width="100%" max-width="500px" transition="dialog-top-transition">
             <v-card>
                 <v-card-title class="headline text-h6">
                     <v-icon color="error">mdi-alert-circle</v-icon>
                     &nbsp; Delete Confirmation
                 </v-card-title>
                 <v-card-text class="body-1">
-                    Are you sure you want to delete <b>{{ user.userDetails.fullName }}</b> from the database? This action can't be undone.
+                    Are you sure you want to delete <b>{{ user.userDetails.fullName }}</b> from the database? This action
+                    can't be undone.
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -131,6 +133,7 @@
 import { ref, watch } from 'vue';
 import UserServices from '@/services/UserServices'
 
+const isMobileView = useIsMobileView();
 const props = defineProps(['user']);
 const emit = defineEmits(['closeDialog', 'submit', 'contactDeleted']);
 const showNotes = ref(false);
@@ -246,19 +249,19 @@ const closeDialog = () => {
 .button-text {
     text-transform: none;
 }
+
 .v-card {
-  background-color: #f9f9f9;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .v-card-title {
-  background-color: #f44336;
-  color: #fff;
-  padding: 15px;
+    background-color: #f44336;
+    color: #fff;
+    padding: 15px;
 }
 
 .v-btn {
-  text-transform: none;
-}
-</style>
+    text-transform: none;
+}</style>
   

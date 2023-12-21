@@ -47,7 +47,7 @@
                             </tr>
                         </template>
                     </v-data-table>
-                    <v-dialog v-model="isViewingUser" width="900px">
+                    <v-dialog v-model="isViewingUser" width="auto" :fullscreen="isMobileView ? true : false">
                         <UserDetailsDialog :user="selectedUser" @close-dialog="isViewingUser = false"
                             @contact-deleted="deleteContact" />
                     </v-dialog>

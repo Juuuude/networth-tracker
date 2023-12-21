@@ -119,7 +119,7 @@
     <v-dialog v-model="showAlert" max-width="500px" persistent transition="dialog-top-transition">
       <v-alert type="success" focus title="Thank you" text="Details successfully submitted!"></v-alert>
     </v-dialog>
-    <v-dialog v-model="showLoginDialog" width="448px" transition="dialog-top-transition">
+    <v-dialog v-model="showLoginDialog" width="500px" transition="dialog-top-transition">
       <loginDialog />
     </v-dialog>
   </v-container>
