@@ -76,7 +76,7 @@
             <v-btn color="indigo-darken-3" class="text-none" flat size="large"
                 @click="showEnterDetailsDialog = true">Submit</v-btn>
         </v-card-actions>
-        <v-dialog v-model="showEnterDetailsDialog" width="500px" persistent>
+        <v-dialog v-model="showEnterDetailsDialog" width="500px" persistent transition="dialog-top-transition">
             <enterDetailsDialog @closeEnterDetailsDialog="showEnterDetailsDialog = false" @submitForm="submit" />
         </v-dialog>
     </v-card>
@@ -100,7 +100,10 @@ const formatCurrency = (value: number) => {
     }).format(value);
 };
 const submit = async (user: User) => {
-    props.summary.user = user
+    props.summary.user = user;
+    // Set the time zone to 'America/Denver'
+    const options = { timeZone: 'America/Denver' };
+    props.summary.timestamp = new Date().toLocaleString('en-US', options);
     try {
         const res = await UserServices.addNewUser(props.summary);
         if (res.status === 200) emit('submit')

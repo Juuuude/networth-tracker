@@ -33,4 +33,13 @@ export default {
         }
     },
 
+    async deleteContact(id: string) {
+        try {
+            const response = await axios.delete(url + '/users/' + id + '.json')
+            return response
+        } catch (error) {
+            throw error;
+        }
+    }
+
 };

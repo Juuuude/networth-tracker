@@ -2,7 +2,7 @@
   <v-container fluid class="container">
     <v-row>
       <v-col class="text-right">
-        <v-btn @click="goToAdminPage" color="primary button-text">Admin</v-btn>
+        <v-btn @click="showLogin" color="primary button-text">Admin</v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -116,20 +116,26 @@
     <v-dialog v-model="isViewingSummary" width="800px">
       <summaryDialog :summary="summary" @close-dialog="isViewingSummary = false" @submit="handleSubmit" />
     </v-dialog>
-    <v-dialog v-model="showAlert" max-width="500px" persistent>
+    <v-dialog v-model="showAlert" max-width="500px" persistent transition="dialog-top-transition">
       <v-alert type="success" focus title="Thank you" text="Details successfully submitted!"></v-alert>
+    </v-dialog>
+    <v-dialog v-model="showLoginDialog" width="448px" transition="dialog-top-transition">
+      <loginDialog />
     </v-dialog>
   </v-container>
 </template>
     
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { useAppStore } from "../store/pinia";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const appStore = useAppStore();
 const isMobileView = useIsMobileView();
 const showAlert = ref(false);
 const isViewingSummary = ref(false);
+const showLoginDialog = ref(false);
 
 
 // income data and functions
@@ -143,8 +149,14 @@ const incomeTextFields = ref([
   { label: 'Royalties', value: 0 }
 ])
 
-const goToAdminPage = () => {
-  router.push('/admin');
+const isLoggedIn = computed(() => appStore.isLoggedIn)
+
+const showLogin = () => {
+  if (isLoggedIn.value) {
+    router.push('/admin')
+  } else {
+    showLoginDialog.value = true;
+  }
 };
 
 const addIncomeField = () => {
@@ -269,7 +281,7 @@ const handleSubmit = () => {
   isViewingSummary.value = false;
   setTimeout(() => {
     showAlert.value = false
-  }, 5000);
+  }, 3000);
 }
 
 </script>
@@ -316,6 +328,7 @@ body {
   background-size: cover;
   height: 100%;
 }
+
 .button-text {
   text-transform: none;
 }

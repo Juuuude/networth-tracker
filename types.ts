@@ -1,3 +1,10 @@
+export type Admin = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export type User = {
     fullName: string;
     phone: number;
@@ -37,4 +44,5 @@ export type User = {
     totalLiabilities: number;
     netWorth: number;
     notes: string;
+    timestamp: Date;
   }

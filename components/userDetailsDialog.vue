@@ -102,11 +102,28 @@
             </div>
         </div>
         <v-card-actions class="mt-5">
+            <v-btn color="error" class="text-none" flat size="large" @click="isDeletingContact = true">Delete Contact</v-btn>
             <v-spacer></v-spacer>
             <v-btn color="indigo-darken-3" class="text-none" flat size="large" @click="closeDialog">Close</v-btn>
             <v-btn color="indigo-darken-3" class="text-none" flat size="large" @click="save"
                 :disabled="disabled">Save</v-btn>
         </v-card-actions>
+        <v-dialog v-model="isDeletingContact" width="500px" transition="dialog-top-transition">
+            <v-card>
+                <v-card-title class="headline text-h6">
+                    <v-icon color="error">mdi-alert-circle</v-icon>
+                    &nbsp; Delete Confirmation
+                </v-card-title>
+                <v-card-text class="body-1">
+                    Are you sure you want to delete <b>{{ user.userDetails.fullName }}</b> from the database? This action can't be undone.
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="text-none" flat size="large" @click="isDeletingContact = false">Cancel</v-btn>
+                    <v-btn class="text-none" flat size="large" color="error" @click="deleteContact">Delete</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-card>
 </template>
   
@@ -115,13 +132,14 @@ import { ref, watch } from 'vue';
 import UserServices from '@/services/UserServices'
 
 const props = defineProps(['user']);
-const emit = defineEmits(['closeDialog', 'submit']);
+const emit = defineEmits(['closeDialog', 'submit', 'contactDeleted']);
 const showNotes = ref(false);
 const showAlert = ref(false);
 const notes = ref(props.user.notes || '');
 const alertMessage = ref('');
 const alertType = ref<'success' | 'error' | 'warning' | 'info'>('success');
 const disabled = ref(false);
+const isDeletingContact = ref(false)
 
 // watch(() => notes.value, (newVal, oldVal) => {
 //     disabled.value = newVal === oldVal;
@@ -153,6 +171,18 @@ const save = async () => {
         }, 3000);
         alertMessage.value = 'Unable to update user, please try again later'
         alertType.value = 'error'
+    }
+}
+const deleteContact = async () => {
+    try {
+        const res = await UserServices.deleteContact(props.user.id)
+        if (res.status === 200) {
+            isDeletingContact.value = false;
+            closeDialog();
+            emit('contactDeleted', props.user.id)
+        }
+    } catch (error) {
+        console.error(error)
     }
 }
 const showAddNotes = () => {
@@ -215,5 +245,20 @@ const closeDialog = () => {
 
 .button-text {
     text-transform: none;
-}</style>
+}
+.v-card {
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.v-card-title {
+  background-color: #f44336;
+  color: #fff;
+  padding: 15px;
+}
+
+.v-btn {
+  text-transform: none;
+}
+</style>
   
