@@ -14,10 +14,10 @@
                 </v-col>
             </v-row>
             <v-col class="text-right">
-                <v-btn class="fancy-button mr-2" color="blue" @click="isSettingUpLegends = true">
+                <v-btn class="fancy-button" color="blue" @click="isSettingUpLegends = true">
                     Set up legends<v-icon>mdi-flag</v-icon>
                 </v-btn>
-                <v-btn class="fancy-button" color="blue" @click="exportData" :loading="isExportingData">
+                <v-btn class="fancy-button ml-2" color="blue" @click="exportData" :loading="isExportingData">
                     Export file<v-icon>mdi-microsoft-excel</v-icon>
                     <v-icon>mdi-download</v-icon>
                 </v-btn>
@@ -47,7 +47,7 @@
                             </tr>
                         </template>
                     </v-data-table>
-                    <v-dialog v-model="isViewingUser" width="auto">
+                    <v-dialog v-model="isViewingUser" width="100%" max-width="800px">
                         <UserDetailsDialog :user="selectedUser" @close-dialog="isViewingUser = false"
                             @contact-deleted="deleteContact" />
                     </v-dialog>

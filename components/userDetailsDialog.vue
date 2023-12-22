@@ -102,8 +102,7 @@
             </div>
         </div>
         <v-card-actions class="mt-5">
-            <v-btn color="error" class="text-none" flat size="large" @click="isDeletingContact = true">Delete
-                Contact</v-btn>
+            <v-btn color="error" class="text-none" flat size="large" @click="isDeletingContact = true">Delete</v-btn>
             <v-spacer v-if="!isMobileView"></v-spacer> <!-- Hide spacer on small screens -->
             <v-btn color="indigo-darken-3" class="text-none" flat size="large" @click="closeDialog">Close</v-btn>
             <v-btn color="indigo-darken-3" class="text-none" flat size="large" @click="save"
