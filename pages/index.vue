@@ -287,7 +287,7 @@ const handleSubmit = () => {
 
 </script>
     
-<style>
+<style scoped>
 .form-card {
   height: 600px;
   opacity: 0.85;

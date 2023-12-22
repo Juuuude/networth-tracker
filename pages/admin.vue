@@ -278,5 +278,12 @@ body {
 
 .margin-right-mobile {
     margin-right: 25px;
-}</style>
+}
+.container {
+  background-image: url('../assets/financial_sheet_bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+</style>
   
