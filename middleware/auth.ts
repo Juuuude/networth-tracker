@@ -5,6 +5,8 @@ const appStore = useAppStore();
 
 export default defineNuxtRouteMiddleware((to, from) => {
     if (!appStore.isLoggedIn) {
-        return navigateTo('/');
+        navigateTo('/');
+    } else {
+        navigateTo('/admin');
     }
 })
