@@ -9,8 +9,8 @@ export default defineNuxtConfig({
   ],
   pwa: {
     manifest: {
-      name: "Financial Sheet",
-      short_name: "Financial Sheet",
+      name: "Financial Playbook",
+      short_name: "Financial Playbook",
       description: "An application where you can see your user's total networth and the breakdown of their assets, income, expenses and liabilities.",
       icons: [
         {
