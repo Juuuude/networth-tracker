@@ -66,11 +66,12 @@
               <v-col cols="12" xs="12" sm="12" md="6" lg="6" v-for="(item, index) in expenseTextFields" :key="index">
                 <v-text-field v-model="item.value" :label="item.label" type="number"></v-text-field>
               </v-col>
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <v-select v-model="selectedExpenseCategory" :items="availableExpenseCategories" label="Add Expense Category"
+                  @update:modelValue="handleExpenseCategoryChange"></v-select>
+              </v-col>
             </v-row>
           </v-card-text>
-          <v-btn class="ml-4 mb-3 button-text" color="#28B421" variant="flat" @click="addExpenseField">
-            Add more <v-icon>mdi-plus</v-icon>
-          </v-btn>
           <v-text-field class="total-field mx-2" type="number" v-model="totalExpenses" label="Total Expenses"
             readonly></v-text-field>
         </v-card>
@@ -199,12 +200,43 @@ const expenseTextFields = ref([
   { label: 'Cash', value: 0 },
   { label: 'Support', value: 0 }
 ])
+const selectedExpenseCategory = ref('');
+const expenseCategories = [
+  'Taxes (Income)',
+  'Health Insurance',
+  'Home Mortgage (or Rent)',
+  'Utilites electric, gas, water',
+  'Cell Phone',
+  'Home Insurance',
+  'Food and Clothing',
+  'Credit Card #1',
+  'Credit Card #2',
+  'Credit Card #3',
+  'Car Loan #1',
+  'School Loan #1',
+  'Car Insurance',
+  'Add Other',
+];
 
-const addExpenseField = () => {
-  const label = window.prompt('Enter the label for the new expense field:');
-  if (label) {
-    expenseTextFields.value.push({ label, value: 0 });
+// Remove the chosen category to the choices
+const availableExpenseCategories = computed(() => {
+  const chosenCategories = expenseTextFields.value.map(item => item.label);
+  return expenseCategories.filter(category => !chosenCategories.includes(category));
+});
+
+const handleExpenseCategoryChange = () => {
+  if (selectedExpenseCategory.value === 'Add Others') {
+    // Prompt for a new expense label
+    const label = window.prompt('Enter the label for the new expense field:');
+    if (label) {
+      expenseTextFields.value.push({ label, value: 0 });
+    }
+  } else {
+    // Add the selected category to the expense fields
+    expenseTextFields.value.push({ label: selectedExpenseCategory.value, value: 0 });
   }
+  // Clear the selected category
+  selectedExpenseCategory.value = '';
 };
 
 const totalExpenses = computed(() => {
