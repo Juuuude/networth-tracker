@@ -215,7 +215,7 @@ const expenseCategories = [
   'Car Loan #1',
   'School Loan #1',
   'Car Insurance',
-  'Add Other',
+  'Add Others',
 ];
 
 // Remove the chosen category to the choices
