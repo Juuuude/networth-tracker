@@ -22,11 +22,12 @@
               <v-col cols="12" xs="12" sm="12" md="6" lg="6" v-for="(item, index) in incomeTextFields" :key="index">
                 <v-text-field v-model="item.value" :label="item.label" type="number"></v-text-field>
               </v-col>
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <v-select v-model="selectedIncomeCategory" :items="availableIncomeCategories" label="Add Income Category"
+                  @update:modelValue="handleIncomeCategoryChange" style="color: #28B421; font-weight: bold;"></v-select>
+              </v-col>
             </v-row>
           </v-card-text>
-          <v-btn class="ml-4 mb-3 button-text" color="#28B421" variant="flat" @click="addIncomeField">
-            Add more <v-icon>mdi-plus</v-icon>
-          </v-btn>
           <v-text-field class="total-field mx-2" type="number" v-model="totalIncome" label="Total Income"
             readonly></v-text-field>
         </v-card>
@@ -42,11 +43,12 @@
               <v-col cols="12" xs="12" sm="12" md="6" lg="6" v-for="(item, index) in assetsTextFields" :key="index">
                 <v-text-field v-model="item.value" :label="item.label" type="number"></v-text-field>
               </v-col>
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <v-select v-model="selectedAssetCategory" :items="availableAssetCategories" label="Add Asset Category"
+                  @update:modelValue="handleAssetCategoryChange" style="color: #28B421; font-weight: bold;"></v-select>
+              </v-col>
             </v-row>
           </v-card-text>
-          <v-btn class="ml-4 mb-3 button-text" color="#28B421" variant="flat" @click="addAssetField">
-            Add more <v-icon>mdi-plus</v-icon>
-          </v-btn>
           <v-text-field class="total-field mx-2" type="number" v-model="totalAssets" label="Total Assets"
             readonly></v-text-field>
         </v-card>
@@ -67,8 +69,9 @@
                 <v-text-field v-model="item.value" :label="item.label" type="number"></v-text-field>
               </v-col>
               <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-                <v-select v-model="selectedExpenseCategory" :items="availableExpenseCategories" label="Add Expense Category"
-                  @update:modelValue="handleExpenseCategoryChange"></v-select>
+                <v-select v-model="selectedExpenseCategory" :items="availableExpenseCategories"
+                  label="Add Expense Category" @update:modelValue="handleExpenseCategoryChange"
+                  style="color: #28B421; font-weight: bold;"></v-select>
               </v-col>
             </v-row>
           </v-card-text>
@@ -85,14 +88,16 @@
           <p class="sub-title" style="padding: 10px; background-color: rgb(31, 41, 20); color: #FFF;">Liabilities</p>
           <v-card-text>
             <v-row class="scrollable-container">
-              <v-col cols="12" xs="12" sm="12" md="6" lg="6" v-for="(item, index) in liablitiesTextFields" :key="index">
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6" v-for="(item, index) in liabilitiesTextFields" :key="index">
                 <v-text-field v-model="item.value" :label="item.label" type="number"></v-text-field>
+              </v-col>
+              <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+                <v-select v-model="selectedLiabilityCategory" :items="availableLiabilityCategories"
+                  label="Add Liability Category" @update:modelValue="handleLiabilityCategoryChange"
+                  style="color: #28B421; font-weight: bold;"></v-select>
               </v-col>
             </v-row>
           </v-card-text>
-          <v-btn class="ml-4 mb-3 button-text" color="#28B421" variant="flat" @click="addLiabilityField">
-            Add more <v-icon>mdi-plus</v-icon>
-          </v-btn>
           <v-text-field class="total-field mx-2" type="number" v-model="totalLiabilities" label="Total Liabilities"
             readonly></v-text-field>
         </v-card>
@@ -128,7 +133,7 @@
 </template>
     
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useAppStore } from "../store/pinia";
 import { useRouter } from "vue-router";
 
@@ -138,18 +143,6 @@ const isMobileView = useIsMobileView();
 const showAlert = ref(false);
 const isViewingSummary = ref(false);
 const showLoginDialog = ref(false);
-
-
-// income data and functions
-const incomeTextFields = ref([
-  { label: 'Job', value: 0 },
-  { label: 'Self-Employment', value: 0 },
-  { label: 'Real Estate (Net)', value: 0 },
-  { label: 'Business (Net)', value: 0 },
-  { label: 'Interest', value: 0 },
-  { label: 'Dividends', value: 0 },
-  { label: 'Royalties', value: 0 }
-])
 
 const isLoggedIn = computed(() => appStore.isLoggedIn)
 
@@ -161,11 +154,42 @@ const showLogin = () => {
   }
 };
 
-const addIncomeField = () => {
-  const label = window.prompt('Enter the label for the new income field:');
-  if (label) {
-    incomeTextFields.value.push({ label, value: 0 });
+// income data and functions
+const incomeTextFields = ref([
+  { label: 'Earned Job #1', value: 0 },
+  { label: 'Self-Employment', value: 0 },
+  { label: 'Real Estate (Net)', value: 0 },
+  { label: 'Business (Net)', value: 0 },
+])
+
+const selectedIncomeCategory = ref('');
+const incomeCategories = [
+  'Interest',
+  'Dividends',
+  'Royalties',
+  'Earned Job #2',
+  'Add Others'
+];
+
+// Remove the chosen category to the choices
+const availableIncomeCategories = computed(() => {
+  const chosenCategories = incomeTextFields.value.map(item => item.label);
+  return incomeCategories.filter(category => !chosenCategories.includes(category));
+});
+
+const handleIncomeCategoryChange = () => {
+  if (selectedIncomeCategory.value === 'Add Others') {
+    // Prompt for a new income label
+    const label = window.prompt('Enter the label for the new income field:');
+    if (label) {
+      incomeTextFields.value.push({ label, value: 0 });
+    }
+  } else {
+    // Add the selected category to the income fields
+    incomeTextFields.value.push({ label: selectedIncomeCategory.value, value: 0 });
   }
+  // Clear the selected category
+  selectedIncomeCategory.value = '';
 };
 
 const totalIncome = computed(() => {
@@ -182,11 +206,34 @@ const assetsTextFields = ref([
   { label: 'Real State Assets', value: 0 }
 ])
 
-const addAssetField = () => {
-  const label = window.prompt('Enter the label for the new asset field:');
-  if (label) {
-    assetsTextFields.value.push({ label, value: 0 });
+const selectedAssetCategory = ref('');
+const assetCategories = [
+  'Bonds',
+  'Receivables',
+  'Home',
+  'Car(s)',
+  'Add Others'
+];
+
+// Remove the chosen category to the choices
+const availableAssetCategories = computed(() => {
+  const chosenCategories = assetsTextFields.value.map(item => item.label);
+  return assetCategories.filter(category => !chosenCategories.includes(category));
+});
+
+const handleAssetCategoryChange = () => {
+  if (selectedAssetCategory.value === 'Add Others') {
+    // Prompt for a new asset label
+    const label = window.prompt('Enter the label for the new asset field:');
+    if (label) {
+      assetsTextFields.value.push({ label, value: 0 });
+    }
+  } else {
+    // Add the selected category to the asset fields
+    assetsTextFields.value.push({ label: selectedAssetCategory.value, value: 0 });
   }
+  // Clear the selected category
+  selectedAssetCategory.value = '';
 };
 
 const totalAssets = computed(() => {
@@ -246,21 +293,44 @@ const totalExpenses = computed(() => {
 
 
 // liabilities data and functions
-const liablitiesTextFields = ref([
-  { label: 'Credit Cards', value: 0 },
+const liabilitiesTextFields = ref([
+  { label: 'Credit Cards #1', value: 0 },
   { label: 'Home Mortgage Loan', value: 0 },
-  { label: 'Loans', value: 0 }
+  { label: 'Car Loans', value: 0 },
+  { label: 'Personal Loans', value: 0 }
 ])
 
-const addLiabilityField = () => {
-  const label = window.prompt('Enter the label for the new liability field:');
-  if (label) {
-    liablitiesTextFields.value.push({ label, value: 0 });
+const selectedLiabilityCategory = ref('');
+const liabilityCategories = [
+  'Credit Cards #2',
+  'Credit Cards #3',
+  'School Loans',
+  'Add Others'
+];
+
+// Remove the chosen category to the choices
+const availableLiabilityCategories = computed(() => {
+  const chosenCategories = liabilitiesTextFields.value.map(item => item.label);
+  return liabilityCategories.filter(category => !chosenCategories.includes(category));
+});
+
+const handleLiabilityCategoryChange = () => {
+  if (selectedLiabilityCategory.value === 'Add Others') {
+    // Prompt for a new liability label
+    const label = window.prompt('Enter the label for the new liability field:');
+    if (label) {
+      liabilitiesTextFields.value.push({ label, value: 0 });
+    }
+  } else {
+    // Add the selected category to the liability fields
+    liabilitiesTextFields.value.push({ label: selectedLiabilityCategory.value, value: 0 });
   }
+  // Clear the selected category
+  selectedLiabilityCategory.value = '';
 };
 
 const totalLiabilities = computed(() => {
-  const liabilities = liablitiesTextFields.value.map(item => parseFloat(item.value.toString()) || 0);
+  const liabilities = liabilitiesTextFields.value.map(item => parseFloat(item.value.toString()) || 0);
   return liabilities.reduce((sum, liability) => sum + liability, 0).toFixed(2);
 });
 
@@ -298,7 +368,7 @@ const submitForm = () => {
       expenseValue: expense.value
     })),
     totalExpenses: totalExpenses.value,
-    liabilities: liablitiesTextFields.value.map(liability => ({
+    liabilities: liabilitiesTextFields.value.map(liability => ({
       liabilityLabel: liability.label,
       liabilityValue: liability.value
     })),
