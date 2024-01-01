@@ -1,4 +1,5 @@
 <template>
+    <title>Financial Playbook</title>
     <v-container fluid class="container">
         <div :class="!isMobileView ? 'mx-16' : ''">
             <v-row>

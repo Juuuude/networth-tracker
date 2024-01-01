@@ -1,4 +1,5 @@
 <template>
+  <title>Financial Playbook</title>
   <VitePwaManifest />
   <v-container fluid class="container">
     <v-row>
